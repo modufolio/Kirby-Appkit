@@ -1,4 +1,4 @@
-# Kirby Plainkit
+# Kirby Appkit
 
 Kirby is a file-based CMS.
 Easy to setup. Easy to use. Flexible as hell.
@@ -17,11 +17,9 @@ You can purchase your Kirby license at
 A Kirby license is valid for a single domain. You can find
 Kirby's license agreement here: <https://getkirby.com/license>
 
-## The Plainkit
+## The Appkit
 
-Kirby's Plainkit is the most minimal setup you can get started with.
-It does not include any content, styles or other kinds of decoration,
-so it's perfect to use this as a starting point for your own project.
+Kirby's Appkit is a setup to extend Kirby's core functionality.      
 
 ## The Panel
 
@@ -41,7 +39,7 @@ copied to your server correctly**
 
 ### Requirements
 
-Kirby runs on PHP 7.1+, Apache or Nginx.
+Kirby runs on PHP 7.4+, Apache or Nginx.
 
 ### Download
 
