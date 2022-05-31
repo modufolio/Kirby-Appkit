@@ -48,3 +48,4 @@ Icon
 /kirby
 /vendor
 public/media
+*.lock
