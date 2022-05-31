@@ -1,11 +1,13 @@
 <?php
 
+use App\Core\App;
+
 define("START_TIMER", microtime(true));
 
 include dirname(__DIR__) . '/bootstrap.php';
 
 
-$kirby = new Kirby([
+$kirby = new App([
     'roots' => [
         'index'    => __DIR__,
         'base'     => $base    = dirname(__DIR__),
