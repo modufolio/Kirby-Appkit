@@ -3,7 +3,6 @@
 namespace App\Core;
 
 use Exception;
-use Kirby\Toolkit\Tpl;
 use Throwable;
 
 class Dispatch
@@ -17,7 +16,7 @@ class Dispatch
         $controller = '\App\\Controllers\\' . $controller. 'Controller';
 
         if (!class_exists($controller)) {
-            return Tpl::load(Roots::TEMPLATES . DS . '404.php');
+            return site()->errorPage();
         }
 
         $method= self::getMethodFromAction($action);
@@ -25,7 +24,7 @@ class Dispatch
         $controller_object = new $controller();
 
         if (!is_callable([$controller_object, $method])) {
-            return Tpl::load(Roots::TEMPLATES . DS . '404.php');
+            return site()->errorPage();
         }
 
         return $controller_object->$method($params);
