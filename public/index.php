@@ -1,6 +1,9 @@
 <?php
 
-include '../vendor/autoload.php';
+define("START_TIMER", microtime(true));
+
+include dirname(__DIR__) . '/bootstrap.php';
+
 
 $kirby = new Kirby([
     'roots' => [
