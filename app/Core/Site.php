@@ -4,7 +4,7 @@ namespace App\Core;
 
 use Kirby\Cms\Pages;
 
-class Site extends \Kirby\Cms\Site
+final class Site extends \Kirby\Cms\Site
 {
     /**
      * Add virtual children to existing children

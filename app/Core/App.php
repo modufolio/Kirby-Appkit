@@ -4,7 +4,7 @@ namespace App\Core;
 
 use Kirby\Cms\Responder;
 
-class App extends \Kirby\Cms\App
+final class App extends \Kirby\Cms\App
 {
     public function sayHello(): string
     {
