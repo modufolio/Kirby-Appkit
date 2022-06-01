@@ -3,9 +3,14 @@
 namespace App\Core;
 
 use Kirby\Cms\Responder;
+use Kirby\Cms\Users;
 
 final class App extends \Kirby\Cms\App
 {
+    /**
+     * Example custom method
+     *
+     */
     public function sayHello(): string
     {
         return 'Hello world';
@@ -20,6 +25,8 @@ final class App extends \Kirby\Cms\App
     {
         return $this->response = $this->response ?? (new Responder())->header('App', Timer::app() . ' ms');
     }
+
+
 
     /**
      * Sets a custom Site object
@@ -51,6 +58,22 @@ final class App extends \Kirby\Cms\App
                 'kirby'       => $this,
                 'url'         => $this->url('index'),
             ]);
+    }
+
+    /**
+     * Create your own set of app users
+     *
+     * @param array|null $users
+     */
+    public function setUsers(array $users = null)
+    {
+        if ($users !== null) {
+            $this->users = Users::factory($users, [
+                'kirby' => $this
+            ]);
+        }
+
+        return $this;
     }
 
 }
