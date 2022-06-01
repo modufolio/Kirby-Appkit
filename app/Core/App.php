@@ -4,5 +4,41 @@ namespace App\Core;
 
 class App extends \Kirby\Cms\App
 {
-    // custom code here
+    public function sayHello(): string
+    {
+        return 'Hello world';
+    }
+
+    /**
+     * Sets a custom Site object
+     *
+     * @param \Kirby\Cms\Site|array|null $site
+     * @return $this
+     */
+    protected function setSite($site = null)
+    {
+        if (is_array($site) === true) {
+            $site = new Site($site + [
+                    'kirby' => $this,
+                ]);
+        }
+
+        $this->site = $site;
+        return $this;
+    }
+
+    /**
+     * Initializes and returns the Site object
+     *
+     */
+    public function site()
+    {
+        return $this->site = $this->site ?? new Site([
+                'errorPageId' => $this->options['error'] ?? 'error',
+                'homePageId'  => $this->options['home']  ?? 'home',
+                'kirby'       => $this,
+                'url'         => $this->url('index'),
+            ]);
+    }
+
 }
