@@ -2,11 +2,23 @@
 
 namespace App\Core;
 
+use Kirby\Cms\Responder;
+
 class App extends \Kirby\Cms\App
 {
     public function sayHello(): string
     {
         return 'Hello world';
+    }
+
+    /**
+     * Response configuration
+     *
+     * @return Responder
+     */
+    public function response(): Responder
+    {
+        return $this->response = $this->response ?? (new Responder())->header('App', Timer::app() . ' ms');
     }
 
     /**
