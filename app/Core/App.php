@@ -4,6 +4,7 @@ namespace App\Core;
 
 use Kirby\Cms\Responder;
 use Kirby\Cms\Users;
+use Kirby\Toolkit\Config;
 
 final class App extends \Kirby\Cms\App
 {
@@ -23,7 +24,7 @@ final class App extends \Kirby\Cms\App
      */
     public function response(): Responder
     {
-        return $this->response = $this->response ?? (new Responder())->header('App', Timer::app() . ' ms');
+        return $this->response = $this->response ?? (new Responder())->headers(Config::get('headers'));
     }
 
 

@@ -14,5 +14,6 @@ return [
             return $this->parents()->count();
         }
     ],
+    'headers' => require __DIR__ . '/headers.php',
 
 ];
