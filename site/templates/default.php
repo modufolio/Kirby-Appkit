@@ -5,3 +5,5 @@
 
 <?= $page->linktag(); ?>
 
+<?= $page->hasParents(); ?>
+
