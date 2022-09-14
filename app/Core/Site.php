@@ -19,4 +19,13 @@ final class Site extends \Kirby\Cms\Site
         // return merged collection
         return $children->merge($virtualChildren);
     }
+
+    /**
+     * Example custom method
+     *
+     */
+    public function sayHello(): string
+    {
+        return 'Hello world';
+    }
 }

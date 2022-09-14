@@ -8,14 +8,6 @@ use Kirby\Toolkit\Config;
 
 final class App extends \Kirby\Cms\App
 {
-    /**
-     * Example custom method
-     *
-     */
-    public function sayHello(): string
-    {
-        return 'Hello world';
-    }
 
     /**
      * Response configuration
