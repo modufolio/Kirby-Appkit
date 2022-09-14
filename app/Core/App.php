@@ -4,6 +4,7 @@ namespace App\Core;
 
 use Kirby\Cms\Responder;
 use Kirby\Cms\Users;
+use Kirby\Filesystem\F;
 use Kirby\Toolkit\Config;
 
 final class App extends \Kirby\Cms\App
@@ -67,6 +68,31 @@ final class App extends \Kirby\Cms\App
         }
 
         return $this;
+    }
+
+    protected function optionsFromConfig(): array
+    {
+        // create an empty config container
+        Config::$data = [];
+
+        // load the main config options
+        $root    = $this->root('config');
+        $options = F::load($root . '/config.php', []);
+
+        $config = [
+            'headers' => F::load($root . '/headers.php', []) ?? [],
+            'routes'  => F::load(Roots::ROUTES . '/web.php', []) ?? [],
+            'api'     => [
+                'routes' => F::load(Roots::ROUTES . '/api.php', []) ?? [],
+            ],
+            'pages'   => F::load($root . '/pages.php', []) ?? [],
+            'pageMethods' => F::load($root . '/methods.php', []) ?? []
+        ];
+
+        $options = array_replace_recursive($config, $options);
+
+        // merge into one clean options array
+        return $this->options = array_replace_recursive(Config::$data, $options);
     }
 
 }

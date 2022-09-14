@@ -2,6 +2,8 @@
 
 use App\Core\App;
 use App\Core\Extend;
+use App\Core\Roots;
+use Kirby\Filesystem\F;
 use Kirby\Toolkit\Config;
 
 define("START_TIMER", microtime(true));
