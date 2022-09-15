@@ -14,6 +14,7 @@ $kirby = new App([
     'roots' => [
         'index'    => __DIR__,
         'base'     => $base    = dirname(__DIR__),
+        'config'     => $base . '/config',
         'site'     => $base . '/site',
         'storage'  => $storage = $base . '/storage',
         'content'  => $storage . '/content',
