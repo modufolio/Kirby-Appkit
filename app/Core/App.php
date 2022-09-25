@@ -3,7 +3,7 @@
 namespace App\Core;
 
 use Kirby\Cms\Responder;
-use Kirby\Cms\Users;
+use Kirby\Database\Db;
 use Kirby\Filesystem\F;
 use Kirby\Toolkit\Config;
 
@@ -53,6 +53,66 @@ final class App extends \Kirby\Cms\App
                 'url'         => $this->url('index'),
             ]);
     }
+
+    public function users()
+    {
+        // get cached users if available
+        if ($this->users !== null) {
+            return $this->users;
+        }
+
+        $dbUsers        = [];
+        $contentTable   = 'content';
+        // get users from database table
+        $users          = Db::select('users');
+        $languageCode   = $this->multilang() === true ? $this->language()->code() : 'en';
+
+        // loop through the users collection
+        foreach ($users as $user) {
+            $data            = $user->toArray();
+            $content         = Db::first($contentTable, '*', ['id' => $user->id(), 'language' => $languageCode]);
+            $data['content'] = $content !== false ? $content->toArray() : [];
+
+            // for multi-language sites, add the translations to the translations array
+            if ($this->multilang() === true) {
+                unset($data['content']);
+                $data['translations'] = $this->getDbContentTranslations($contentTable, $user->id());
+            }
+            // append data to the `$dbUsers` array
+            $dbUsers[] = $data;
+        }
+
+        return $this->users = Users::factory($dbUsers);
+    }
+
+    /**
+     * Build content translations array
+     *
+     * @param string $table
+     * @param string $id
+     * @return array
+     */
+    protected function getDbContentTranslations(string $table, string $id): array
+    {
+        $translations = [];
+        foreach ($this->languages() as $language) {
+            $content =  Db::first($table, '*', ['id' => $id, 'language' => $language->code()]);
+            if ($language === $this->defaultLanguage()) {
+                $translations[] = [
+                    'code'    => $language->code(),
+                    'content' => $content !== false ? $content->toArray() : [],
+                ];
+            } else {
+                $translations[] =  [
+                    'code'    => $language->code(),
+                    'content' => $content !== false ? $content->toArray() : [],
+                ];
+            }
+        }
+
+        return $translations;
+    }
+
 
     /**
      * Create your own set of app users
