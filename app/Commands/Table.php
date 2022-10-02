@@ -35,13 +35,18 @@ class Table extends Command
     {
         $tableArray = require Roots::DATABASE . '/tables.php';
 
-        $tableName = $name = $this->choice(
+        $tableName = $this->choice(
             'Choose a table name to create',
             array_keys($tableArray),
         );
 
         if (empty ($tableArray[$tableName])){
             $this->error('Table not found');
+            exit();
+        }
+        if(Capsule::schema()->hasTable($tableName)){
+            $this->error('Table exists');
+            exit();
         }
 
         Capsule::schema()->create($tableName , $tableArray[$tableName]);
