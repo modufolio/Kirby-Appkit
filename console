@@ -1,9 +1,12 @@
 #!/usr/bin/env php
 <?php
 
-require __DIR__.'/util/vendor/autoload.php';
+const KIRBY_HELPER_DUMP = false;
+const KIRBY_HELPER_E = false;
 
-use Console\Commands\Serve;
+require __DIR__. '/bootstrap.php';
+
+use App\Commands\Serve;
 use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Console\Application;

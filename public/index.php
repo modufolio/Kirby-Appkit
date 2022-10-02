@@ -6,6 +6,12 @@ use App\Core\Roots;
 use Kirby\Filesystem\F;
 use Kirby\Toolkit\Config;
 
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
+const KIRBY_HELPER_DUMP = false;
+const KIRBY_HELPER_E = false;
 define("START_TIMER", microtime(true));
 
 include dirname(__DIR__) . '/bootstrap.php';

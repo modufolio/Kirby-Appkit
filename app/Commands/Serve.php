@@ -1,6 +1,6 @@
 <?php
 
-namespace Console\Commands;
+namespace App\Commands;
 
 use Illuminate\Console\Command;
 
@@ -39,7 +39,7 @@ class Serve extends Command
     }
 
     /**
-     * Check the current PHP version is >= 5.4.
+     * Check the current PHP version is >= 7.4.
      *
      * @return void
      *
@@ -47,8 +47,8 @@ class Serve extends Command
      */
     protected function checkPhpVersion()
     {
-        if (version_compare(PHP_VERSION, '5.4.0', '<')) {
-            throw new \Exception('This PHP binary is not version 5.4 or greater.');
+        if (version_compare(PHP_VERSION, '7.4.0', '<')) {
+            throw new \Exception('This PHP binary is not version 7.4 or greater.');
         }
     }
 }
