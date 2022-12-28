@@ -5,6 +5,7 @@ use App\Core\Extend;
 use App\Core\Roots;
 use Kirby\Filesystem\F;
 use Kirby\Toolkit\Config;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 // ini_set('display_errors', 1);
 // ini_set('display_startup_errors', 1);
@@ -15,6 +16,8 @@ const KIRBY_HELPER_E = false;
 define("START_TIMER", microtime(true));
 
 include dirname(__DIR__) . '/bootstrap.php';
+
+const INDEX_DIR = __DIR__;
 
 $kirby = new App([
     'roots' => [
@@ -34,5 +37,6 @@ $kirby = new App([
 
 
 $kirby->extend(['pageMethods' => Config::get('pageMethods') ]);      // Page methods
+Extend::eloquentModels(Config::get('eloquent'));
 
 echo $kirby->render();

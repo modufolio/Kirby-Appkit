@@ -1,13 +1,24 @@
 <?php
 
+use App\Core\Roots;
 use Kirby\Cms\Page;
 
 return [
     'debug' => true,
 
+    'panel' => [
+        'css' => 'assets/css/custom-panel.css',
+        'headline' => 'small',
+    ],
+
     'db' => [
         'type'     => 'sqlite',
-        'database' => BASE_DIR .'/database/data.sqlite' #full path to file
+        'database' => Roots::DATABASE . '/database.sqlite',
+    ],
+    'eloquent' => [
+        'driver'    => 'sqlite',
+        'database' => Roots::DATABASE . '/database.sqlite',
+        'prefix' => '',
     ],
 
     'api' => [
