@@ -14,8 +14,12 @@ final class Site extends \Kirby\Cms\Site
         // get existing children
         $children = parent::children();
 
+        if(!is_array($pages = Config::get('pages'))){
+            return $children;
+        }
+
         // pass virtual children data to the Pages::factory() methods
-        $virtualChildren = Pages::factory(Config::get('pages'), $this);
+        $virtualChildren = Pages::factory($pages, $this);
         // return merged collection
         return $children->merge($virtualChildren);
     }
