@@ -2,6 +2,13 @@
 
 use App\Core\Layout;
 use App\Core\Slots;
+use Kirby\Toolkit\A;
+
+function env(string $key)
+{
+    $data = parse_ini_file('.env', true);
+    return A::get($data, $key);
+}
 
 function layout($name = null, ?array $data = null)
 {
