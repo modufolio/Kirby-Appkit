@@ -13,7 +13,6 @@ class Dispatch
      */
     public static function actionController($controller, $action, $params = [])
     {
-        $controller = '\App\\Controllers\\' . $controller. 'Controller';
 
         if (!class_exists($controller)) {
             return site()->errorPage();
