@@ -145,6 +145,7 @@ final class App extends \Kirby\Cms\App
             'api'     => [
                 'routes' => F::load(Roots::ROUTES . '/api.php', []) ?? [],
             ],
+            'hooks' => F::load($root . '/hooks.php', []) ?? [],
             'pages'   => F::load($root . '/pages.php', []) ?? [],
             'pageMethods' => F::load($root . '/methods.php', []) ?? []
         ];
