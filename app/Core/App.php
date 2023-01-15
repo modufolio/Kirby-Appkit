@@ -7,6 +7,7 @@ use Kirby\Database\Db;
 use Kirby\Filesystem\F;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Config;
+use Kirby\Toolkit\V;
 
 final class App extends \Kirby\Cms\App
 {
@@ -69,13 +70,15 @@ final class App extends \Kirby\Cms\App
         $contentTable   = 'content';
         $languageCode   = $this->multilang() === true ? $this->language()->code() : 'en';
 
+        $where = V::email($id) ? ['email' => $id] : ['id' => $id];
+
         if ($id !== null) {
 
-            $collection = Db::select('users', '*', ['id' => $id]);
+            $collection = Db::select('users', '*', $where);
             $list            = $collection->toArray();
             $data            = $list[0]->toArray();
 
-            $content         = Db::first($contentTable, '*', ['id' => $id, 'language' => $languageCode]);
+            $content         = Db::first($contentTable, '*', $where + ['language' => $languageCode]);
             $data['content'] = $content !== false ? $content->toArray() : [];
 
             // for multi-language sites, add the translations to the translations array
@@ -146,9 +149,11 @@ final class App extends \Kirby\Cms\App
      */
     protected function getDbContentTranslations(string $table, string $id): array
     {
+        $where = V::email($id) ? ['email' => $id] : ['id' => $id];
+
         $translations = [];
         foreach ($this->languages() as $language) {
-            $content =  Db::first($table, '*', ['id' => $id, 'language' => $language->code()]);
+            $content =  Db::first($table, '*', $where + [ 'language' => $language->code()]);
             if ($language === $this->defaultLanguage()) {
                 $translations[] = [
                     'code'    => $language->code(),
