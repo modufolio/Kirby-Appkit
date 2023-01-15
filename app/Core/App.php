@@ -5,6 +5,7 @@ namespace App\Core;
 use Kirby\Cms\Responder;
 use Kirby\Database\Db;
 use Kirby\Filesystem\F;
+use Kirby\Toolkit\A;
 use Kirby\Toolkit\Config;
 
 final class App extends \Kirby\Cms\App
@@ -53,18 +54,68 @@ final class App extends \Kirby\Cms\App
                 'url'         => $this->url('index'),
             ]);
     }
+    /**
+     * Returns a specific user by id
+     * or the current user if no id is given
+     *
+     * @param string|null $id
+     * @param bool $allowImpersonation If set to false, only the actually
+     *                                 logged in user will be returned
+     *                                 (when `$id` is passed as `null`)
+     * @return \Kirby\Cms\User|null
+     */
+    public function user(?string $id = null, bool $allowImpersonation = true)
+    {
+        $contentTable   = 'content';
+        $languageCode   = $this->multilang() === true ? $this->language()->code() : 'en';
+
+        if ($id !== null) {
+
+            $collection = Db::select('users', '*', ['id' => $id]);
+            $list            = $collection->toArray();
+            $data            = $list[0]->toArray();
+
+            $content         = Db::first($contentTable, '*', ['id' => $id, 'language' => $languageCode]);
+            $data['content'] = $content !== false ? $content->toArray() : [];
+
+            // for multi-language sites, add the translations to the translations array
+            if ($this->multilang() === true) {
+                unset($data['content']);
+                $data['translations'] = $this->getDbContentTranslations($contentTable, $id);
+            }
+
+            return User::factory($data);
+        }
+
+        if ($allowImpersonation === true && is_string($this->user) === true) {
+            return $this->auth()->impersonate($this->user);
+        } else {
+            try {
+                return $this->auth()->user(null, $allowImpersonation);
+            } catch (Throwable $e) {
+                return null;
+            }
+        }
+    }
+
 
     public function users()
     {
+        return $this->users = $this->getDbUsers();
+    }
+
+    public function getDbUsers(int $offset = 0, ?int $limit = null): Users
+    {
+
         // get cached users if available
-        if ($this->users !== null) {
+        if ($this->users !== null && $offset === null && $limit === null) {
             return $this->users;
         }
 
         $dbUsers        = [];
         $contentTable   = 'content';
         // get users from database table
-        $users          = Db::select('users');
+        $users          = Db::select(table: 'users', offset: $offset, limit: $limit);
         $languageCode   = $this->multilang() === true ? $this->language()->code() : 'en';
 
         // loop through the users collection
@@ -82,8 +133,9 @@ final class App extends \Kirby\Cms\App
             $dbUsers[] = $data;
         }
 
-        return $this->users = Users::factory($dbUsers);
+        return Users::factory($dbUsers);
     }
+
 
     /**
      * Build content translations array

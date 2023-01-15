@@ -1,8 +1,46 @@
 <?php
 
 use Kirby\Cms\App;
-use Kirby\Cms\Find;
+use Kirby\Database\Db;
 use Kirby\Toolkit\Escape;
+
+
+function pagesPagination(int $total, int $limit): int
+{
+    if ($total === 0) {
+        return 0;
+    }
+
+    return (int)ceil($total / $limit);
+}
+
+function startPagination(?int $page, int $limit): int
+{
+    if($page === null) {
+        $page = 1;
+    }
+
+    $index = $page - 1;
+
+    if ($index < 0) {
+        $index = 0;
+    }
+
+    return $index * $limit + 1;
+}
+
+function endPagination(int $total, int $start, int $limit): int
+{
+    $value = ($start - 1) + $limit;
+
+    if ($value <= $total) {
+        return $value;
+    }
+
+    return $total;
+}
+
+
 
 return [
     'users' => function () {
@@ -28,16 +66,24 @@ return [
                                 },
                                 'roles' => array_values($roles),
                                 'users' => function () use ($kirby, $role) {
-                                    $users = $kirby->users();
+
+                                    $page = $kirby->request()->get('page');
+                                    $limit = 20;
+                                    $total = Db::count('users');
+                                    $pages = pagesPagination($total, $limit);
+                                    $firstPage = $total === 0 ? 0 : 1;
+                                    $lastPage = $pages;
+                                    $start = startPagination($page, $limit);
+                                    $end = endPagination($total, $start, $limit);
+                                    $offset = $start - 1;
+
+                                    $pagination = compact('page', 'pages', 'firstPage', 'lastPage', 'start', 'end', 'offset', 'limit', 'total');
+                                    $users = $kirby->getDbUsers($offset, $limit);
 
                                     if (empty($role) === false) {
                                         $users = $users->role($role);
                                     }
 
-                                    $users = $users->paginate([
-                                        'limit' => 20,
-                                        'page'  => $kirby->request()->get('page')
-                                    ]);
 
                                     return [
                                         'data' => $users->values(fn ($user) => [
@@ -48,7 +94,7 @@ return [
                                             'text'  => Escape::html($user->username())
 
                                         ]),
-                                        'pagination' => $users->pagination()->toArray()
+                                        'pagination' => $pagination
                                     ];
                                 },
                             ]
@@ -59,5 +105,4 @@ return [
             ]
         ];
     }
-
 ];
