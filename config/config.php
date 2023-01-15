@@ -13,11 +13,11 @@ return [
 
     'db' => [
         'type'     => 'sqlite',
-        'database' => Roots::DATABASE . '/database.sqlite',
+        'database' => Roots::DATABASE . '/data.sqlite',
     ],
     'eloquent' => [
         'driver'    => 'sqlite',
-        'database' => Roots::DATABASE . '/database.sqlite',
+        'database' => Roots::DATABASE . '/data.sqlite',
         'prefix' => '',
     ],
 
