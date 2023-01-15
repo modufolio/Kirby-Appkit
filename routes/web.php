@@ -1,13 +1,14 @@
 <?php
 
 
+use App\Controllers\AdminController;
 use App\Core\Dispatch;
 
 return   [
     [
-        'pattern' => '/basic/(:any)',
-        'action'  => function($method) {
-            return Dispatch::actionController('Basic',$method);
+        'pattern' =>  'admin/(:any)',
+        'action' => function ($action) {
+            Dispatch::actionController(AdminController::class, $action);
         }
     ],
 
