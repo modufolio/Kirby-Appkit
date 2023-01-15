@@ -147,7 +147,8 @@ final class App extends \Kirby\Cms\App
             ],
             'hooks' => F::load($root . '/hooks.php', []) ?? [],
             'pages'   => F::load($root . '/pages.php', []) ?? [],
-            'pageMethods' => F::load($root . '/methods.php', []) ?? []
+            'pageMethods' => F::load($root . '/methods.php', []) ?? [],
+            'areas'   => F::load($root . '/areas.php', []) ?? [],
         ];
 
         $options = array_replace_recursive($config, $options);
