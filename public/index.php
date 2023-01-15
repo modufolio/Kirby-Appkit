@@ -7,9 +7,9 @@ use Kirby\Filesystem\F;
 use Kirby\Toolkit\Config;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ ini_set('display_errors', 1);
+ ini_set('display_startup_errors', 1);
+ error_reporting(E_ALL);
 
 const KIRBY_HELPER_DUMP = false;
 const KIRBY_HELPER_E = false;
@@ -36,7 +36,12 @@ $kirby = new App([
 ]);
 
 
-$kirby->extend(['pageMethods' => Config::get('pageMethods') ]);      // Page methods
+$kirby->extend(
+    [
+        'pageMethods' => Config::get('pageMethods'),
+        'areas' => Config::get('areas'),
+    ]
+);
 Extend::eloquentModels(Config::get('eloquent'));
 
 echo $kirby->render();
