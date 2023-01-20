@@ -7,6 +7,7 @@ use Kirby\Database\Db;
 use Kirby\Filesystem\F;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Config;
+use Kirby\Toolkit\Str;
 use Kirby\Toolkit\V;
 
 final class App extends \Kirby\Cms\App
@@ -67,6 +68,7 @@ final class App extends \Kirby\Cms\App
      */
     public function user(?string $id = null, bool $allowImpersonation = true)
     {
+        $id = is_string($id) ? Str::ltrim($id, 'user://') : $id;
         $contentTable   = 'content';
         $languageCode   = $this->multilang() === true ? $this->language()->code() : 'en';
 
@@ -75,8 +77,8 @@ final class App extends \Kirby\Cms\App
         if ($id !== null) {
 
             $collection = Db::select('users', '*', $where);
-            $list            = $collection->toArray();
-            $data            = $list[0]->toArray();
+            $list            = $collection->first();
+            $data            = $list->toArray();
 
             $content         = Db::first($contentTable, '*', $where + ['language' => $languageCode]);
             $data['content'] = $content !== false ? $content->toArray() : [];
