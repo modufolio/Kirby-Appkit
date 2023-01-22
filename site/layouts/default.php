@@ -1,9 +1,8 @@
 <html>
 <head>
-    <title>Blog</title>
+    <title><?= $page->title() ?></title>
 </head>
 <body>
-<h1>Blog</h1>
 <?= $slot ?>
 </body>
 </html>
