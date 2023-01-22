@@ -18,8 +18,8 @@
     "source": "https://github.com/getkirby/starterkit"
   },
   "require": {
-    "php": ">=7.4.0 <8.1.0",
-    "getkirby/cms": "^3.5",
+    "php": ">=8.0.0 <8.2.0",
+    "getkirby/cms": ">=3.9.0",
     "illuminate/console": "^8.0",
     "illuminate/events": "^8.0",
     "illuminate/database": "^8.0",
