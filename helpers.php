@@ -1,5 +1,6 @@
 <?php
 
+use Kirby\Template\Snippet;
 use Kirby\Toolkit\A;
 
 if (! function_exists('env')) {
@@ -10,7 +11,7 @@ if (! function_exists('env')) {
 }
 
 if (! function_exists('layout')) {
-    function layout($name = 'default', ?array $data = [])
+    function layout($name = 'default', ?array $data = []): Snippet
     {
         return Snippet::begin(
             file: kirby()->root('site') . '/layouts/' . $name . '.php',
