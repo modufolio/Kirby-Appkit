@@ -1,5 +1,6 @@
 <?php
 
+use App\Core\Stacks;
 use Kirby\Template\Snippet;
 use Kirby\Toolkit\A;
 
@@ -19,5 +20,22 @@ if (! function_exists('layout')) {
         );
     }
 }
-
+if (! function_exists('endpush')) {
+    function endpush(): void
+    {
+        Stacks::end();
+    }
+}
+if (! function_exists('push')) {
+    function push(string $name, bool $once = false): void
+    {
+        Stacks::open($name, $once);
+    }
+}
+if (! function_exists('stack')) {
+    function stack(string $name, bool $return = false): string|null
+    {
+        return Stacks::render($name, $return);
+    }
+}
 
