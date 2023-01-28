@@ -63,7 +63,7 @@ class User extends BaseUser
                 $languageCode = 'en';
             }
 
-            $result = Db::insert('users', $data);
+            $result = Db::table('users')->insert($data);
             if ($result === false) {
                 throw new LogicException('The user could not be created');
             }
@@ -90,7 +90,7 @@ class User extends BaseUser
             }
 
             // delete the user from users table
-            $bool = Db::delete('users', ['id' => $user->id()]);
+            $bool = Db::table('users')->where(['id', $user->id()])->delete();
             if ($bool !== true) {
                 throw new LogicException('The user "' . $user->email() . '" could not be deleted');
             }
@@ -108,7 +108,7 @@ class User extends BaseUser
      */
     protected function deleteContentRows(): bool
     {
-        return Db::delete('content', ['id' => $this->id()]);
+        return Db::table('content')->where(['id' => $this->id()])->delete();
     }
 
     /**
@@ -118,7 +118,7 @@ class User extends BaseUser
      */
     public function exists(): bool
     {
-        return (bool) Db::first('users', '*', ['id' => $this->id()]);
+        return (bool) Db::table('users')->where(['id', $this->id()])->first();
     }
 
     /**
@@ -155,9 +155,7 @@ class User extends BaseUser
      */
     protected function updateCredentials(array $credentials): bool
     {
-        return Db::update(
-            'users',
-            array_merge(
+        return Db::table('users')->update(array_merge(
                 $this->credentials(),
                 $credentials
             ),
@@ -177,7 +175,7 @@ class User extends BaseUser
         if (Db::first('content', '*', ['id' => $this->id(), 'language' => $languageCode])) {
             $result = Db::update('content', $data, ['id' => $this->id(), 'language' => $languageCode]);
         } else {
-            $result = Db::insert('content', $data);
+            $result = Db::table('content')->insert($data);
         }
 
         return $result;
@@ -191,7 +189,7 @@ class User extends BaseUser
         $data['id']       = $id;
         $data['language'] = $languageCode;
 
-        return Db::insert('content', $data);
+        return Db::table('content')->insert($data);
     }
 
     /**
@@ -199,10 +197,8 @@ class User extends BaseUser
      */
     protected function writePassword(string $password = null): bool
     {
-        return Db::update(
-            'users',
+        return Db::table('users')->update(
             ['password' => $password],
-            ['id' => $this->id()]
-        );
+            ['id' => $this->id()]);
     }
 }
