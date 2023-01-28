@@ -1,40 +1,31 @@
-## The Appkit
+## Appkit
 
-Kirby's Appkit is a setup to extend Kirby's core functionality.
+Kirby is already a great CMS, and very flexible. But in some cases you need to extend the core functionality. This is where Appkit comes in. It's a setup that allows you to extend Kirby's core functionality with your own classes, methods and functions without creating a plugin. 
+### Features
 
-[Replacing Kirby's core classes](https://getkirby.com/docs/cookbook/extensions/replacing-core-classes)
-
-There are already a lot of ways you can customize Kirby by adding custom methods, overwrite core components, extend the Page class with your own model, and a whole lot more.
-
-But there are also situations where you might want to overwrite certain parts of the core classes for which there is no existing extension yet. For example, to create virtual pages as children of the Site object or virtual users, or to simply add new methods to those classes.
-
-
-
-## Installation
-
-This extended Kirby setup is using sqlite as database for the users.
-
-After cloning the repository, you need to install the dependencies with composer:
-
-`composer install`
-
-It will automatically create the database file `data.db` in the `database` folder when you run the console command:
-
-`php console make:table`
-
-Choose 1 for the users table.
-Choose 2 for the content users table.
+- Extended Kirby core classes
+- Database users
+- Console commands
+- Modern folder setup
+- Stacks
 
 
 
-## The Panel
+### Docs
+- [Installation](docs/installation.md)
+- [Layouts](docs/layouts.md)
+- [Stacks](docs/stacks.md)
 
-You can find the login for Kirby's admin interface at
-http://yourdomain.com/panel. You will be guided through the signup
-process for your first user, when you visit the panel
-for the first time.
+### Credits
 
-### Requirements
+- [Kirby Team](https://getkirby.com)
+- [Sonja Broda](https://sonjabroda.com) for the cookbook article [Replacing Kirby's core classes](https://getkirby.com/docs/cookbook/extensions/replacing-core-classes)
+   that inspired this setup
+- [Bruno Meilick](https://bnomei.github.io/) Public folder setup
+- [Ahment Bora](https://owebstudio.com) Stacks
 
-Kirby runs on PHP 8.0+, Apache or Nginx.
+
+
+
+
 
