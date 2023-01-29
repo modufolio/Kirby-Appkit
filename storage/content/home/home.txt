@@ -2,4 +2,12 @@ Title: Home
 
 ----
 
-Uuid: Bm1Xn1q14FqNVtDj
+Headline: Welcome to Appkit
+
+----
+
+Subheadline: A Kirby CMS Starterkit
+
+----
+
+Uuid: wljMYhm0m3e9QOwC
