@@ -14,5 +14,18 @@ return [
         $table->text('id');
         $table->string('language')->nullable();
         $table->timestamps();
-    }
+    },
+    'albums' => function ($table) {
+        $table->text('id');
+        $table->string('slug');
+        $table->string('title');
+        $table->string('status');
+        $table->string('cover')->nullable();
+        $table->string('headline')->nullable();
+        $table->string('subheadline')->nullable();
+        $table->string('text')->nullable();
+        $table->string('tags')->nullable();
+        $table->timestamps();
+    },
 ];
+
