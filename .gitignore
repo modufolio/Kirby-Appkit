@@ -51,5 +51,4 @@ Icon
 util/vendor
 public/media
 *.lock
-*.sqlite
 .env
