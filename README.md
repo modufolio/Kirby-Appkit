@@ -23,7 +23,7 @@ Kirby is already a great CMS, and very flexible. But in some cases you need to e
 - [Sonja Broda](https://sonjabroda.com) for the cookbook article [Replacing Kirby's core classes](https://getkirby.com/docs/cookbook/extensions/replacing-core-classes)
    that inspired this setup
 - [Bruno Meilick](https://bnomei.github.io/) Public folder setup
-- [Ahment Bora](https://owebstudio.com) Stacks
+- [Ahmet Bora](https://owebstudio.com) Stacks
 
 
 
