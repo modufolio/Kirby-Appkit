@@ -5,6 +5,7 @@ namespace App\Core;
 use Kirby\Cms\Page as KirbyPage;
 use Kirby\Database\Db;
 use Kirby\Toolkit\Str;
+use Kirby\Uuid\Uuid;
 
 
 class Page extends KirbyPage
@@ -119,6 +120,8 @@ class Page extends KirbyPage
             return Db::update($this->getTable(), $data, [$this->identifier => $this->slug()]);
         } else {
             $data['slug'] = $this->slug();
+            $data['id'] = Uuid::generate();
+            $data['status'] = 'draft';
             return Db::insert($this->getTable(), $data);
         }
 

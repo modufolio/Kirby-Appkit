@@ -7,7 +7,8 @@ icon: 🖼
 # Page status can be limited, here to `draft` and `listed`.
 # More about page status: https://getkirby.com/docs/reference/panel/blueprints/page#statuses
 status:
-  draft: true
+  draft: false
+  unlisted: true
   listed: true
 
 # Define the form layout with two columns

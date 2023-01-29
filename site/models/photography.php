@@ -41,7 +41,7 @@ class PhotographyPage extends Kirby\Cms\Page
             'subheadline' => $record->subheadline() ?? null,
             'text' => $record->text() ?? null,
             'tags' => $record->tags() ?? null,
-            'uuid' => Kirby\Uuid\Uuid::generate(),
+            'uuid' => $record->id(),
 
         ];
 

@@ -19,7 +19,7 @@ return [
         $table->text('id');
         $table->string('slug');
         $table->string('title');
-        $table->string('status');
+        $table->string('status')->nullable();
         $table->string('cover')->nullable();
         $table->string('headline')->nullable();
         $table->string('subheadline')->nullable();
