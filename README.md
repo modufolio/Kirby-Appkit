@@ -5,6 +5,7 @@ Kirby is already a great CMS, and very flexible. But in some cases you need to e
 
 - Extended Kirby core classes
 - Database users
+- Database pages
 - Console commands
 - Modern folder setup
 - Stacks
