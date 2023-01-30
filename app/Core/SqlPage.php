@@ -4,11 +4,12 @@ namespace App\Core;
 
 use Kirby\Cms\Page as KirbyPage;
 use Kirby\Database\Db;
+use Kirby\Filesystem\Dir;
 use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
 
 
-class Page extends KirbyPage
+class SqlPage extends KirbyPage
 {
     /**
      * The table associated with the model.
@@ -100,6 +101,26 @@ class Page extends KirbyPage
         }
         return $this;
     }
+
+    public function dirname(): string
+    {
+        if ($this->dirname !== null) {
+            return $this->dirname;
+        }
+
+        return $this->dirname = $this->uid();
+    }
+
+    /**
+     * Sorting number + Slug
+     *
+     * @return string
+     */
+    public function diruri(): string
+    {
+        return $this->diruri = $this->parent()->diruri() . '/' . $this->dirname();
+    }
+
 
     public function delete(bool $force = false): bool
     {

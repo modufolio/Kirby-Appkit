@@ -1,8 +1,8 @@
 <?php
 
-use App\Core\Page;
+use App\Core\SqlPage;
 
-class AlbumPage extends Page
+class AlbumPage extends SqlPage
 {
     protected ?string $table = 'albums';
 
