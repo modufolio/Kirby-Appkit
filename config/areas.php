@@ -68,6 +68,7 @@ return [
                                 'users' => function () use ($kirby, $role) {
 
                                     $page = $kirby->request()->get('page');
+                                    $page = isset($page) ? (int)$page : 1;
                                     $limit = 20;
                                     $total = Db::count('users');
                                     $pages = pagesPagination($total, $limit);
