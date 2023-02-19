@@ -23,16 +23,34 @@ class SqlPage extends KirbyPage
         return $this->table;
     }
 
+    public function copy(array $options = []){
+
+        $slug = $options['slug'] ?? $this->slug() . '-copy';
+
+        // clean up the slug
+        $slug = Str::slug($slug);
+
+        $data = Db::first($this->getTable(), '*', [$this->identifier => $this->slug()])->toArray();
+        $data['id'] = Uuid::generate();
+        $data['status'] = 'draft';
+        $data['slug'] = $slug;
+        $data['created_at'] = time();
+        $data['updated_at'] = time();
+
+        Db::table($this->getTable())->insert($data);
+
+        return $this->kirby()->page($this->parent()->id() . '/' . $slug);
+    }
+
     public function changeSlug(string $slug, string $languageCode = null)
     {
         // always sanitize the slug
         $slug = Str::slug($slug);
 
-
         $data['slug'] = $slug;
 
         if (Db::first($this->getTable(), '*', [$this->identifier => $this->slug()])) {
-            if (Db::update($this->getTable(), $data, [$this->identifier => $this->slug()])) {
+            if (Db::table($this->getTable())->update($data, [$this->identifier => $this->slug()])) {
                 return $this;
             };
         }
@@ -44,7 +62,7 @@ class SqlPage extends KirbyPage
         $data['status'] = 'null';
 
         if (Db::first($this->getTable(), '*', [$this->identifier => $this->slug()])) {
-            return Db::update($this->getTable(), $data, [$this->identifier => $this->slug()]);
+            return Db::table($this->getTable())->update($data, [$this->identifier => $this->slug()]);
         }
 
         return $this;
@@ -63,7 +81,7 @@ class SqlPage extends KirbyPage
         $data['status'] = 'listed';
 
         if (Db::first($this->getTable(), '*', [$this->identifier => $this->slug()])) {
-            return Db::update($this->getTable(), $data, [$this->identifier => $this->slug()]);
+            return Db::table($this->getTable())->update($data, [$this->identifier => $this->slug()]);
         }
 
         if ($this->blueprint()->num() === 'default') {
@@ -82,7 +100,7 @@ class SqlPage extends KirbyPage
         $data['status'] = 'unlisted';
 
         if (Db::first($this->getTable(), '*', [$this->identifier => $this->slug()])) {
-            return Db::update($this->getTable(), $data, [$this->identifier => $this->slug()]);
+            return Db::table($this->getTable())->update($data, [$this->identifier => $this->slug()]);
         }
 
         $this->resortSiblingsAfterUnlisting();
@@ -95,7 +113,7 @@ class SqlPage extends KirbyPage
         $data['title'] = $title;
 
         if (Db::first($this->getTable(), '*', [$this->identifier => $this->slug()])) {
-            if (Db::update($this->getTable(), $data, [$this->identifier => $this->slug()])) {
+            if (Db::table($this->getTable())->update($data, [$this->identifier => $this->slug()])) {
                 return $this;
             };
         }
@@ -124,7 +142,7 @@ class SqlPage extends KirbyPage
 
     public function delete(bool $force = false): bool
     {
-        return Db::delete($this->getTable(), [$this->identifier => $this->slug()]);
+        return Db::table($this->getTable())->where([$this->identifier => $this->slug()])->delete();
     }
 
     public function isDraft(): bool
@@ -138,12 +156,12 @@ class SqlPage extends KirbyPage
         $entry = Db::first($this->getTable(), '*', [$this->identifier => $this->slug()]);
 
         if ($entry) {
-            return Db::update($this->getTable(), $data, [$this->identifier => $this->slug()]);
+            return Db::table($this->getTable())->update($data, [$this->identifier => $this->slug()]);
         } else {
             $data['slug'] = $this->slug();
             $data['id'] = Uuid::generate();
             $data['status'] = 'draft';
-            return Db::insert($this->getTable(), $data);
+            return Db::table($this->getTable())->insert($data);
         }
 
     }
