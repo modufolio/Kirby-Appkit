@@ -77,6 +77,9 @@ final class App extends \Kirby\Cms\App
         if ($id !== null) {
 
             $collection = Db::select('users', '*', $where);
+            if($collection->isEmpty() === true) {
+                return null;
+            }
             $list            = $collection->first();
             $data            = $list->toArray();
 
