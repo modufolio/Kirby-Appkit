@@ -6,7 +6,7 @@ use Kirby\Toolkit\A;
 
 if (! function_exists('env')) {
     function env(string $key){
-        $data = parse_ini_file('.env', true);
+        $data = parse_ini_file('.env', false, INI_SCANNER_RAW);
         return A::get($data, $key);
     }
 }
