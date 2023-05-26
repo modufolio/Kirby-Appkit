@@ -8,7 +8,6 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Extend
 {
-
     /**
      * Registers additional page methods
      *
@@ -19,8 +18,9 @@ class Extend
         Page::$methods = array_merge(Page::$methods, $methods);
     }
 
-    public static function eloquentModels(array $config){
-        $capsule = new Capsule;
+    public static function eloquentModels(array $config)
+    {
+        $capsule = new Capsule();
         $capsule->addConnection($config);
         $capsule->setAsGlobal();
         $capsule->bootEloquent();

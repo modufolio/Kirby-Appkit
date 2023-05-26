@@ -2,7 +2,6 @@
 
 namespace App\Core;
 
-
 use Kirby\Cms\User as BaseUser;
 use Kirby\Database\Db;
 use Kirby\Exception\LogicException;
@@ -13,7 +12,6 @@ use Kirby\Http\Idn;
 
 class User extends BaseUser
 {
-
     /**
      * Create new user in database
      *
@@ -134,8 +132,7 @@ class User extends BaseUser
         array $input = null,
         string $languageCode = null,
         bool $validate = false
-    ): static
-    {
+    ): static {
         // set language code to default language for non-multilang sites
         if ($languageCode === null) {
             $languageCode = 'en';
@@ -159,7 +156,8 @@ class User extends BaseUser
      */
     protected function updateCredentials(array $credentials): bool
     {
-        return Db::table('users')->update(array_merge(
+        return Db::table('users')->update(
+            array_merge(
                 $this->credentials(),
                 $credentials
             ),
@@ -203,6 +201,7 @@ class User extends BaseUser
     {
         return Db::table('users')->update(
             ['password' => $password],
-            ['id' => $this->id()]);
+            ['id' => $this->id()]
+        );
     }
 }

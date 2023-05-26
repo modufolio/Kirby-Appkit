@@ -16,7 +16,8 @@
     "start": [
       "Composer\\Config::disableProcessTimeout",
       "@php -S localhost:8000 -t public kirby/router.php"
-    ]
+    ],
+    "fix": "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix app"
   },
   "config": {
     "optimize-autoloader": true,

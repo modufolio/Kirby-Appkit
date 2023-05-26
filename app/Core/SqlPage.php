@@ -8,7 +8,6 @@ use Kirby\Filesystem\Dir;
 use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
 
-
 class SqlPage extends KirbyPage
 {
     /**
@@ -23,7 +22,8 @@ class SqlPage extends KirbyPage
         return $this->table;
     }
 
-    public function copy(array $options = []){
+    public function copy(array $options = [])
+    {
 
         $slug = $options['slug'] ?? $this->slug() . '-copy';
 

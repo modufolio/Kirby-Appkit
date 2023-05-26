@@ -10,11 +10,12 @@ final class Site extends \Kirby\Cms\Site
     /**
      * Add virtual children to existing children
      */
-    public function children() {
+    public function children()
+    {
         // get existing children
         $children = parent::children();
 
-        if(!is_array($pages = Config::get('pages'))){
+        if(!is_array($pages = Config::get('pages'))) {
             return $children;
         }
 

@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 
 class Serve extends Command
 {
-
     /**
      * The console command name.
      *

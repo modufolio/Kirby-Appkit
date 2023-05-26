@@ -41,4 +41,3 @@ class View
         return Tpl::load(Roots::SNIPPETS . DS . $name . '.php', $data);
     }
 }
-

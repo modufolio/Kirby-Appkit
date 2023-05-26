@@ -10,7 +10,6 @@ use SQLite3;
 
 class Table extends Command
 {
-
     /**
      * The console command name.
      *
@@ -40,16 +39,16 @@ class Table extends Command
             array_keys($tableArray),
         );
 
-        if (empty ($tableArray[$tableName])){
+        if (empty($tableArray[$tableName])) {
             $this->error('Table not found');
             exit();
         }
-        if(Capsule::schema()->hasTable($tableName)){
+        if(Capsule::schema()->hasTable($tableName)) {
             $this->error('Table exists');
             exit();
         }
 
-        Capsule::schema()->create($tableName , $tableArray[$tableName]);
+        Capsule::schema()->create($tableName, $tableArray[$tableName]);
 
         $this->info("Table $tableName created successfully");
 

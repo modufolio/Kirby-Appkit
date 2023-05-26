@@ -14,7 +14,6 @@ use Throwable;
 
 final class App extends \Kirby\Cms\App
 {
-
     /**
      * Response configuration
      *
@@ -71,8 +70,7 @@ final class App extends \Kirby\Cms\App
     public function user(
         string|null $id = null,
         bool $allowImpersonation = true
-    ): User|null
-    {
+    ): User|null {
         $id = is_string($id) ? Str::ltrim($id, 'user://') : $id;
         $contentTable   = 'content';
         $where = V::email($id) ? ['email' => $id] : ['id' => $id];
