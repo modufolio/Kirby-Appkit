@@ -90,7 +90,7 @@ class User extends BaseUser
             }
 
             // delete the user from users table
-            $bool = Db::table('users')->where(['id', $user->id()])->delete();
+            $bool = Db::table('users')->where(['id' => $user->id()])->delete();
             if ($bool !== true) {
                 throw new LogicException('The user "' . $user->email() . '" could not be deleted');
             }
