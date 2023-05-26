@@ -4,13 +4,13 @@ namespace App\Core;
 
 use Kirby\Cms\Responder;
 use Kirby\Cms\Site;
-use Kirby\Cms\User;
 use Kirby\Database\Db;
 use Kirby\Filesystem\F;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Config;
 use Kirby\Toolkit\Str;
 use Kirby\Toolkit\V;
+use Throwable;
 
 final class App extends \Kirby\Cms\App
 {
@@ -75,8 +75,6 @@ final class App extends \Kirby\Cms\App
     {
         $id = is_string($id) ? Str::ltrim($id, 'user://') : $id;
         $contentTable   = 'content';
-        $languageCode   = $this->multilang() === true ? $this->language()->code() : 'en';
-
         $where = V::email($id) ? ['email' => $id] : ['id' => $id];
 
         if ($id !== null) {
@@ -88,7 +86,7 @@ final class App extends \Kirby\Cms\App
             $list            = $collection->first();
             $data            = $list->toArray();
 
-            $content         = Db::first($contentTable, '*', $where + ['language' => $languageCode]);
+            $content         = Db::first($contentTable, '*', $where);
             $data['content'] = $content !== false ? $content->toArray() : [];
 
             // for multi-language sites, add the translations to the translations array
@@ -112,12 +110,12 @@ final class App extends \Kirby\Cms\App
     }
 
 
-    public function users(): Users
+    public function users(): \Kirby\Cms\Users
     {
         return $this->users = $this->getDbUsers();
     }
 
-    public function getDbUsers(int $offset = 0, ?int $limit = null): Users
+    public function getDbUsers(int $offset = 0, ?int $limit = null): \Kirby\Cms\Users
     {
 
         // get cached users if available
@@ -134,7 +132,9 @@ final class App extends \Kirby\Cms\App
         // loop through the users collection
         foreach ($users as $user) {
             $data            = $user->toArray();
-            $content         = Db::first($contentTable, '*', ['id' => $user->id(), 'language' => $languageCode]);
+
+            $contentWheres = $this->multilang() === true ? ['id' => $user->id(), 'language' => $languageCode] : ['id' => $user->id()];
+            $content         = Db::first($contentTable, '*', $contentWheres);
             $data['content'] = $content !== false ? $content->toArray() : [];
 
             // for multi-language sites, add the translations to the translations array

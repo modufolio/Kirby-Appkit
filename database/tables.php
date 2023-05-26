@@ -4,7 +4,7 @@ use Illuminate\Database\Schema\Blueprint;
 
 return [
     'users' => function (Blueprint $table) {
-        $table->text('id');
+        $table->string('id');
         $table->string('email');
         $table->string('name')->nullable();
         $table->string('role');
@@ -13,8 +13,15 @@ return [
         $table->timestamps();
     },
     'content' => function (Blueprint $table) {
-        $table->text('id');
+        $table->string('id');
         $table->string('language')->nullable();
+        $table->text('street')->nullable();
+        $table->string('zip')->nullable();
+        $table->string('city')->nullable();
+        $table->string('country')->nullable();
+        $table->string('website')->nullable();
+        $table->string('fediverse')->nullable();
+        $table->string('instagram')->nullable();
         $table->timestamps();
     },
     'albums' => function (Blueprint $table) {
