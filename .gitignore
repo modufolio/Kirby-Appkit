@@ -48,7 +48,10 @@ Icon
 # https://getkirby.com/docs/cookbook/setup/composer#starting-a-new-project
 /kirby
 /vendor
+/tools/php-cs-fixer/vendor
+
 util/vendor
 public/media
 *.lock
 .env
+*.cache
