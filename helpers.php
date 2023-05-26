@@ -5,16 +5,19 @@ use Kirby\Template\Snippet;
 use Kirby\Toolkit\A;
 
 if (! function_exists('env')) {
-    function env(string $key, $default = null){
-
+    function env(string $key, $default = null)
+    {
         static $loaded = [];
 
         if (empty($loaded)) {
-            $loaded = parse_ini_file('.env', false, INI_SCANNER_RAW);
+            $loaded = parse_ini_file(BASE_DIR . '/.env', false, INI_SCANNER_RAW);
+            foreach ($loaded as &$value) {
+                $value = trim($value);
+                $value = in_array($value, ['true', 'false']) ? ($value === 'true') : $value;
+            }
         }
 
         return $_ENV[$key] ?? $_SERVER[$key] ?? $loaded[$key] ?? $default;
-
     }
 }
 
