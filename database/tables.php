@@ -30,7 +30,7 @@ return [
         $table->timestamps();
     },
     'pages' => function (Blueprint $table) {
-        $table->bigIncrements('id');
+        $table->string('id');
         $table->string('lang');
         $table->string('parent')->nullable();
         $table->string('slug');
