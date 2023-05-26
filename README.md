@@ -1,4 +1,4 @@
-## Appkit
+## Appkit for Kirby 4
 
 Kirby is already a great CMS, and very flexible. But in some cases you need to extend the core functionality. This is where Appkit comes in. It's a setup that allows you to extend Kirby's core functionality with your own classes, methods and functions without creating a plugin. 
 ### Features
