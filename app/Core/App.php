@@ -3,6 +3,8 @@
 namespace App\Core;
 
 use Kirby\Cms\Responder;
+use Kirby\Cms\Site;
+use Kirby\Cms\User;
 use Kirby\Database\Db;
 use Kirby\Filesystem\F;
 use Kirby\Toolkit\A;
@@ -31,7 +33,7 @@ final class App extends \Kirby\Cms\App
      * @param \Kirby\Cms\Site|array|null $site
      * @return $this
      */
-    protected function setSite($site = null)
+    protected function setSite(Site|array $site = null): static
     {
         if (is_array($site) === true) {
             $site = new Site($site + [
@@ -47,7 +49,7 @@ final class App extends \Kirby\Cms\App
      * Initializes and returns the Site object
      *
      */
-    public function site()
+    public function site(): Site
     {
         return $this->site = $this->site ?? new Site([
                 'errorPageId' => $this->options['error'] ?? 'error',
@@ -66,7 +68,10 @@ final class App extends \Kirby\Cms\App
      *                                 (when `$id` is passed as `null`)
      * @return \Kirby\Cms\User|null
      */
-    public function user(?string $id = null, bool $allowImpersonation = true)
+    public function user(
+        string|null $id = null,
+        bool $allowImpersonation = true
+    ): User|null
     {
         $id = is_string($id) ? Str::ltrim($id, 'user://') : $id;
         $contentTable   = 'content';
@@ -107,7 +112,7 @@ final class App extends \Kirby\Cms\App
     }
 
 
-    public function users()
+    public function users(): Users
     {
         return $this->users = $this->getDbUsers();
     }
@@ -181,7 +186,7 @@ final class App extends \Kirby\Cms\App
      *
      * @param array|null $users
      */
-    public function setUsers(array $users = null)
+    protected function setUsers(array $users = null): static
     {
         if ($users !== null) {
             $this->users = Users::factory($users, [

@@ -22,7 +22,7 @@ class User extends BaseUser
      * @throws LogicException
      * @throws PermissionException
      */
-    public static function create(array $props = null)
+    public static function create(array $props = null): static
     {
         $data = $props;
 
@@ -130,7 +130,11 @@ class User extends BaseUser
      * @return static
      * @throws LogicException
      */
-    public function update(array $input = null, string $languageCode = null, bool $validate = false): User
+    public function update(
+        array $input = null,
+        string $languageCode = null,
+        bool $validate = false
+    ): static
     {
         // set language code to default language for non-multilang sites
         if ($languageCode === null) {

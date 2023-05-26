@@ -6,7 +6,7 @@ use Kirby\Database\Db;
 
 class PhotographyPage extends Kirby\Cms\Page
 {
-    public function children()
+    public function children(): Pages
     {
 
         $records = $this->getRecords();
