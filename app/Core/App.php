@@ -14,6 +14,36 @@ use Throwable;
 
 final class App extends \Kirby\Cms\App
 {
+
+    public function __construct(array $props = [], bool $setInstance = true)
+    {
+        parent::__construct(array_merge($this->customSetup(), $props), $setInstance);
+        $this->extend(
+            [
+                'pageMethods' => Config::get('pageMethods'),
+                'areas' => Config::get('areas'),
+            ]
+        );
+    }
+
+    public function customSetup(): array
+    {
+        return [
+            'roots' => [
+                'index'    => INDEX_DIR,
+                'base'     => $base    = dirname(INDEX_DIR),
+                'config'     => $base . '/config',
+                'site'     => $base . '/site',
+                'storage'  => $storage = $base . '/storage',
+                'content'  => $storage . '/content',
+                'accounts' => $storage . '/accounts',
+                'cache'    => $storage . '/cache',
+                'logs'     => $storage . '/logs',
+                'sessions' => $storage . '/sessions',
+            ]
+        ];
+    }
+
     /**
      * Response configuration
      *
