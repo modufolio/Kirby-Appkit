@@ -20,7 +20,6 @@ final class App extends \Kirby\Cms\App
         parent::__construct(array_merge($this->customSetup(), $props), $setInstance);
         $this->extend(
             [
-                'pageMethods' => Config::get('pageMethods'),
                 'areas' => Config::get('areas'),
             ]
         );
@@ -242,9 +241,9 @@ final class App extends \Kirby\Cms\App
             ],
             'hooks' => F::load($root . '/hooks.php', []) ?? [],
             'pages'   => F::load($root . '/pages.php', []) ?? [],
-            'pageMethods' => F::load($root . '/methods.php', []) ?? [],
             'areas'   => F::load($root . '/areas.php', []) ?? [],
         ];
+        $config = $config + F::load($root . '/methods.php', []) ?? [];
 
         $options = array_replace_recursive($config, $options);
 
