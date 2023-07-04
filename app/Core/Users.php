@@ -11,7 +11,7 @@ class Users extends BaseUsers
         return User::create($data);
     }
 
-    public static function factory(array $users, array $inject = [])
+    public static function factory(array $users, array $inject = []): static
     {
         $collection = new static();
 
