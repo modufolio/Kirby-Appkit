@@ -2,7 +2,6 @@
 
 namespace App\Core;
 
-use Kirby\Cms\Pages;
 use Kirby\Cms\Responder;
 use Kirby\Cms\Site;
 use Kirby\Database\Db;
@@ -24,10 +23,6 @@ final class App extends \Kirby\Cms\App
                 'areas' => Config::get('areas'),
             ]
         );
-        /**
-         * Add virtual children to existing children
-         */
-        $this->site()->children = $this->site()->children()->merge(Pages::factory(include $this->root('config') . '/pages.php', $this->site()));
     }
 
     public function customSetup(): array
@@ -56,6 +51,41 @@ final class App extends \Kirby\Cms\App
     public function response(): Responder
     {
         return $this->response = $this->response ?? (new Responder())->headers(Config::get('headers'));
+    }
+
+
+
+    /**
+     * Sets a custom Site object
+     *
+     * @param Site|array|null $site
+     * @return $this
+     */
+    protected function setSite($site = null): static
+    {
+        if (is_array($site) === true) {
+            $site = new CustomSite($site + [ // instantiate new custom site model here
+                    'kirby' => $this
+                ]);
+        }
+
+        $this->site = $site;
+        return $this;
+    }
+
+    /**
+     * Initializes and returns the (custom) Site object
+     *
+     * @return \Kirby\Cms\Site
+     */
+    public function site(): Site
+    {
+        return $this->site = $this->site ?? new CustomSite([
+            'errorPageId' => $this->options['error'] ?? 'error',
+            'homePageId'  => $this->options['home']  ?? 'home',
+            'kirby'       => $this,
+            'url'         => $this->url('index'),
+        ]);
     }
 
     /**
@@ -212,6 +242,7 @@ final class App extends \Kirby\Cms\App
                 'routes' => F::load(Roots::ROUTES . '/api.php', []) ?? [],
             ],
             'hooks' => F::load($root . '/hooks.php', []) ?? [],
+            'pages'   => F::load($root . '/pages.php', []) ?? [],
             'areas'   => F::load($root . '/areas.php', []) ?? [],
         ];
         $config = $config + F::load($root . '/methods.php', []) ?? [];
