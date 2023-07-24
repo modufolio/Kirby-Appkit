@@ -3,19 +3,22 @@
 namespace App\Core;
 
 use Kirby\Cms\Pages;
+use Kirby\Filesystem\F;
 use Kirby\Toolkit\Config;
 
-final class Site extends \Kirby\Cms\Site
+final class CustomSite extends \Kirby\Cms\Site
 {
     /**
      * Add virtual children to existing children
      */
-    public function children()
+    public function children(): Pages
     {
         // get existing children
         $children = parent::children();
 
-        if(!is_array($pages = Config::get('pages'))) {
+        $rootConfig    = $this->kirby()->root('config');
+        
+        if(!is_array($pages = F::load($rootConfig . '/pages.php', []))) {
             return $children;
         }
 

@@ -58,14 +58,14 @@ final class App extends \Kirby\Cms\App
     /**
      * Sets a custom Site object
      *
-     * @param \Kirby\Cms\Site|array|null $site
+     * @param Site|array|null $site
      * @return $this
      */
-    protected function setSite(Site|array $site = null): static
+    protected function setSite($site = null): static
     {
         if (is_array($site) === true) {
-            $site = new Site($site + [
-                    'kirby' => $this,
+            $site = new CustomSite($site + [ // instantiate new custom site model here
+                    'kirby' => $this
                 ]);
         }
 
@@ -74,18 +74,20 @@ final class App extends \Kirby\Cms\App
     }
 
     /**
-     * Initializes and returns the Site object
+     * Initializes and returns the (custom) Site object
      *
+     * @return \Kirby\Cms\Site
      */
     public function site(): Site
     {
-        return $this->site = $this->site ?? new Site([
-                'errorPageId' => $this->options['error'] ?? 'error',
-                'homePageId'  => $this->options['home']  ?? 'home',
-                'kirby'       => $this,
-                'url'         => $this->url('index'),
-            ]);
+        return $this->site = $this->site ?? new CustomSite([
+            'errorPageId' => $this->options['error'] ?? 'error',
+            'homePageId'  => $this->options['home']  ?? 'home',
+            'kirby'       => $this,
+            'url'         => $this->url('index'),
+        ]);
     }
+
     /**
      * Returns a specific user by id
      * or the current user if no id is given
