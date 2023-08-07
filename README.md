@@ -1,6 +1,9 @@
 ## Appkit for Kirby 4
 
 Kirby is already a great CMS, and very flexible. But in some cases you need to extend the core functionality. This is where Appkit comes in. It's a setup that allows you to extend Kirby's core functionality with your own classes, methods and functions without creating a plugin. 
+
+![starterkit](docs/starterkit-screen.png)
+
 ### Features
 
 - Extended Kirby core classes
@@ -9,6 +12,7 @@ Kirby is already a great CMS, and very flexible. But in some cases you need to e
 - Console commands
 - Modern folder setup
 - Stacks
+- Static cache
 
 
 
@@ -16,6 +20,7 @@ Kirby is already a great CMS, and very flexible. But in some cases you need to e
 - [Installation](docs/installation.md)
 - [Layouts](docs/layouts.md)
 - [Stacks](docs/stacks.md)
+- [Static cache](docs/static-cache.md)
 
 ### Credits
 
