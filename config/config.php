@@ -6,6 +6,14 @@ use Kirby\Cms\Page;
 return [
     'debug' => true,
 
+    'cache' => [
+        'pages' => [
+            'active' => true,
+            'type'   => 'static',
+            'prefix' => 'pages',
+        ]
+    ],
+
     'panel' => [
         'css' => 'assets/css/custom-panel.css',
         'headline' => 'small',

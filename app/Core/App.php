@@ -21,6 +21,9 @@ final class App extends \Kirby\Cms\App
         $this->extend(
             [
                 'areas' => Config::get('areas'),
+                'cacheTypes' => [
+                    'static' => '\App\Core\StaticCache',
+                ]
             ]
         );
     }
