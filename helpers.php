@@ -9,8 +9,8 @@ if (! function_exists('env')) {
     {
         static $loaded = [];
 
-        if (empty($loaded)) {
-            $loaded = parse_ini_file(BASE_DIR . '/.env', false, INI_SCANNER_RAW);
+        if (empty($loaded) && file_exists(__DIR__ . '/.env')) {
+            $loaded = parse_ini_file(__DIR__ . '/.env', false, INI_SCANNER_RAW);
             foreach ($loaded as &$value) {
                 $value = trim($value);
                 $value = in_array($value, ['true', 'false']) ? ($value === 'true') : $value;
