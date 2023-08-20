@@ -10,6 +10,11 @@ title: Image
 accept: 
   type: image
 
+# Optimise on upload
+create:
+  width: 1400
+  height: 1400
+
 columns:
   - width: 1/2
     sections:
