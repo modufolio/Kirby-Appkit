@@ -22,7 +22,7 @@ class SqlPage extends KirbyPage
         return $this->table;
     }
 
-    public function copy(array $options = [])
+    public function copy(array $options = []): static
     {
 
         $slug = $options['slug'] ?? $this->slug() . '-copy';
@@ -42,7 +42,7 @@ class SqlPage extends KirbyPage
         return $this->kirby()->page($this->parent()->id() . '/' . $slug);
     }
 
-    public function changeSlug(string $slug, string $languageCode = null)
+    public function changeSlug(string $slug, string $languageCode = null): static
     {
         // always sanitize the slug
         $slug = Str::slug($slug);
@@ -57,18 +57,18 @@ class SqlPage extends KirbyPage
         return $this;
     }
 
-    protected function changeStatusToDraft()
+    protected function changeStatusToDraft(): static
     {
         $data['status'] = 'null';
 
         if (Db::first($this->getTable(), '*', [$this->identifier => $this->slug()])) {
-            return Db::table($this->getTable())->update($data, [$this->identifier => $this->slug()]);
+            Db::table($this->getTable())->update($data, [$this->identifier => $this->slug()]);
         }
 
         return $this;
     }
 
-    protected function changeStatusToListed(int $position = null)
+    protected function changeStatusToListed(int $position = null): static
     {
         // create a sorting number for the page
         $num = $this->createNum($position);
@@ -81,7 +81,7 @@ class SqlPage extends KirbyPage
         $data['status'] = 'listed';
 
         if (Db::first($this->getTable(), '*', [$this->identifier => $this->slug()])) {
-            return Db::table($this->getTable())->update($data, [$this->identifier => $this->slug()]);
+            Db::table($this->getTable())->update($data, [$this->identifier => $this->slug()]);
         }
 
         if ($this->blueprint()->num() === 'default') {
@@ -91,7 +91,7 @@ class SqlPage extends KirbyPage
         return $this;
     }
 
-    protected function changeStatusToUnlisted()
+    protected function changeStatusToUnlisted(): static
     {
         if ($this->status() === 'unlisted') {
             return $this;
@@ -100,7 +100,7 @@ class SqlPage extends KirbyPage
         $data['status'] = 'unlisted';
 
         if (Db::first($this->getTable(), '*', [$this->identifier => $this->slug()])) {
-            return Db::table($this->getTable())->update($data, [$this->identifier => $this->slug()]);
+            Db::table($this->getTable())->update($data, [$this->identifier => $this->slug()]);
         }
 
         $this->resortSiblingsAfterUnlisting();
@@ -108,7 +108,7 @@ class SqlPage extends KirbyPage
         return $this;
     }
 
-    public function changeTitle(string $title, string $languageCode = null)
+    public function changeTitle(string $title, string $languageCode = null): static
     {
         $data['title'] = $title;
 
