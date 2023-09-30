@@ -6,7 +6,7 @@ use Kirby\Cms\Users as BaseUsers;
 
 class Users extends BaseUsers
 {
-    public function create($data)
+    public function create($data): User
     {
         return User::create($data);
     }
