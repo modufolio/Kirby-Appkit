@@ -4,6 +4,8 @@ namespace App\Core;
 
 use Kirby\Cms\Page as KirbyPage;
 use Kirby\Database\Db;
+use Kirby\Exception\DuplicateException;
+use Kirby\Exception\InvalidArgumentException;
 use Kirby\Filesystem\Dir;
 use Kirby\Toolkit\Str;
 use Kirby\Uuid\Uuid;
@@ -17,7 +19,7 @@ class SqlPage extends KirbyPage
 
     protected string $identifier = 'slug';
 
-    public function getTable()
+    public function getTable(): ?string
     {
         return $this->table;
     }
@@ -39,7 +41,26 @@ class SqlPage extends KirbyPage
 
         Db::table($this->getTable())->insert($data);
 
-        return $this->kirby()->page($this->parent()->id() . '/' . $slug);
+
+        $files       = $options['files']     ?? false;
+
+        $copy = new static([
+            'isDraft' => $options['isDraft']   ?? $this->isDraft(),
+            'num'     => $options['num']       ?? null,
+            'parent'  => $options['parent']    ?? null,
+            'slug'    => $slug,
+        ]);
+
+        $ignore = [
+            $this->kirby()->locks()->file($this)
+        ];
+
+        // copy files
+        if ($files === true) {
+            Dir::copy($this->root(), $copy->root(), false, $ignore);
+        }
+
+        return $copy;
     }
 
     public function changeSlug(string $slug, string $languageCode = null): static
@@ -113,10 +134,9 @@ class SqlPage extends KirbyPage
         $data['title'] = $title;
 
         if (Db::first($this->getTable(), '*', [$this->identifier => $this->slug()])) {
-            if (Db::table($this->getTable())->update($data, [$this->identifier => $this->slug()])) {
-                return $this;
-            };
+            Db::table($this->getTable())->update($data, [$this->identifier => $this->slug()]);
         }
+
         return $this;
     }
 
@@ -145,6 +165,9 @@ class SqlPage extends KirbyPage
         return Db::table($this->getTable())->where([$this->identifier => $this->slug()])->delete();
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function isDraft(): bool
     {
         return in_array($this->content()->status(), ['listed', 'unlisted']) === false;
