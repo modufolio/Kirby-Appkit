@@ -15,7 +15,7 @@
 
   "require": {
     "php": ">=8.0.0 <8.3.0",
-    "getkirby/cms": "4.0.0-beta.1",
+    "getkirby/cms": "4.0.0-beta.2",
     "illuminate/console": "^8.0",
     "illuminate/events": "^8.0",
     "illuminate/database": "^8.0",
