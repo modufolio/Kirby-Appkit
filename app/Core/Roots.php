@@ -12,7 +12,6 @@ class Roots
     public const STORAGE  = self::BASE . 'storage';
     public const CONFIG = self::BASE . 'config';
     public const TEMPLATES = self::BASE . 'site/templates';
-    public const VIEWS = self::BASE.  'site/views';
     public const SNIPPETS = self::BASE . 'site/snippets';
     public const LAYOUTS = self::BASE . 'site/layouts';
     public const DATABASE = self::BASE . 'database';
