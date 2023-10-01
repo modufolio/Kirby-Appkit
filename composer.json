@@ -33,7 +33,10 @@
       "@php -S localhost:8000 -t public kirby/router.php"
     ],
     "fix": "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix app",
-    "analyze:composer": "composer validate --strict --no-check-version --no-check-all"
+    "analyze:composer": "composer validate --strict --no-check-version --no-check-all",
+    "post-install-cmd": [
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ]
   },
   "config": {
     "optimize-autoloader": true,

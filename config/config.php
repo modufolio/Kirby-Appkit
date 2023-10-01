@@ -4,13 +4,14 @@ use App\Core\Roots;
 use Kirby\Cms\Page;
 
 return [
-    'debug' => true,
+    'debug' => env('APP_DEBUG', false),
 
     'cache' => [
         'pages' => [
-            'active' => true,
+            'active' => env('APP_CACHE', false),
             'type'   => 'static',
             'prefix' => 'pages',
+            'ignore' => fn (\Kirby\Cms\Page $page) => $page->kirby()->user() !== null
         ]
     ],
 
