@@ -7,7 +7,7 @@ class AdminController
     public function loginAction()
     {
         $userid = env('USERID');
-        $is_dev = env('ENV') === 'dev';
+        $is_dev = env('APP_ENV') === 'local';
         $user = kirby()->user($userid);
         if ($is_dev && $user) {
             $user->loginPasswordless();
