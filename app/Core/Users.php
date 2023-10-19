@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use Kirby\Cms\Users as BaseUsers;
+use Kirby\Database\Db;
 
 class Users extends BaseUsers
 {
@@ -22,5 +23,10 @@ class Users extends BaseUsers
         }
 
         return $collection;
+    }
+
+    public function count(): int
+    {
+        return Db::table('users')->count();
     }
 }

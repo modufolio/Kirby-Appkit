@@ -64,14 +64,14 @@ trait DbUsers
 
     public function users(): \Kirby\Cms\Users
     {
-        return $this->users = $this->getDbUsers();
+        return $this->users ??= $this->getDbUsers();
     }
 
     public function getDbUsers(int $offset = 0, ?int $limit = null): \Kirby\Cms\Users
     {
 
         // get cached users if available
-        if ($this->users !== null && $offset === null && $limit === null) {
+        if ($this->users !== null && $offset === 0 && $limit === null) {
             return $this->users;
         }
 
