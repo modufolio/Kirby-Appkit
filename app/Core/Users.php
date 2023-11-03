@@ -24,9 +24,4 @@ class Users extends BaseUsers
 
         return $collection;
     }
-
-    public function count(): int
-    {
-        return Db::table('users')->count();
-    }
 }
