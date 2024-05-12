@@ -39,7 +39,7 @@ class Router extends \Kirby\Http\Router
                 } else {
                     $result = $this->callClosure($route);
 
-                    if(is_array($result) === true ) {
+                    if(is_callable($result, true) === true ) {
                         $result = $this->callController($result, $route);
                     }
 
