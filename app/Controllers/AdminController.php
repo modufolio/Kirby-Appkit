@@ -2,9 +2,12 @@
 
 namespace App\Controllers;
 
+use App\Http\RouteAttribute;
+
 class AdminController
 {
-    public function loginAction()
+    #[RouteAttribute('/admin/login', ['GET'])]
+    public function login()
     {
         $userid = env('USERID');
         $is_dev = env('APP_ENV') === 'local';
@@ -13,17 +16,14 @@ class AdminController
             $user->loginPasswordless();
         }
 
-        go('/');
+        go('/panel');
     }
-    public function logoutAction()
+    #[RouteAttribute('/admin/logout', ['GET'])]
+    public function logout()
     {
         if ($user = kirby()->user()) {
             $user->logout();
         }
         go('/');
     }
-
-
-
-
 }

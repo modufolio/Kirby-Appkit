@@ -1,6 +1,8 @@
 <?php
 
+use App\Controllers\AdminController;
 use App\Core\Roots;
+use App\Http\RouteGenerator;
 use Kirby\Cms\Page;
 
 return [
@@ -29,6 +31,10 @@ return [
         'database' => Roots::DATABASE . '/data.sqlite',
         'prefix' => '',
     ],
+
+    'routes' => (new RouteGenerator([
+        AdminController::class
+    ]))->getRoutes(),
 
     'api' => [
         'allowInsecure' => true,

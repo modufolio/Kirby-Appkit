@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Http\Router;
 use Kirby\Cms\Responder;
 use Kirby\Cms\Site;
 use Kirby\Filesystem\F;
@@ -54,6 +55,34 @@ final class App extends \Kirby\Cms\App
         return $this->response = $this->response ?? (new Responder())->headers(Config::get('headers'));
     }
 
+    public function router(): Router
+    {
+        if ($this->router !== null) {
+            return $this->router;
+        }
+
+        $routes = $this->routes();
+
+        if ($this->multilang() === true) {
+            foreach ($routes as $index => $route) {
+                if (empty($route['language']) === false) {
+                    unset($routes[$index]);
+                }
+            }
+        }
+
+        $hooks = [
+            'beforeEach' => function ($route, $path, $method) {
+                $this->trigger('route:before', compact('route', 'path', 'method'));
+            },
+            'afterEach' => function ($route, $path, $method, $result, $final) {
+                return $this->apply('route:after', compact('route', 'path', 'method', 'result', 'final'), 'result');
+            }
+        ];
+
+        return $this->router = new Router($routes, $hooks);
+    }
+
 
 
     /**
@@ -100,7 +129,6 @@ final class App extends \Kirby\Cms\App
 
         $config = [
             'headers' => F::load($root . '/headers.php', []) ?? [],
-            'routes'  => F::load(Roots::ROUTES . '/web.php', []) ?? [],
             'api'     => [
                 'routes' => F::load(Roots::ROUTES . '/api.php', []) ?? [],
             ],
